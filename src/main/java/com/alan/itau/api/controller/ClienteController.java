@@ -22,6 +22,10 @@ import com.alan.itau.domain.model.Cliente;
 import com.alan.itau.domain.repository.ClienteRepository;
 import com.alan.itau.domain.service.CadastroClienteService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(value="API REST Cadastro CLientes")
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
@@ -32,11 +36,13 @@ public class ClienteController {
 	@Autowired
 	private CadastroClienteService cadastroCliente;
 		
+	@ApiOperation(value="Lista dos clientes")
 	@GetMapping
 	public List<Cliente> Listar() {
 		return clienteRepository.findAll();
 	}
 	
+	@ApiOperation(value="Busca um cliente específico")
 	@GetMapping("/{clienteId}")
 	public ResponseEntity<Cliente> buscar(@PathVariable Long clienteId) {
 		
@@ -49,12 +55,14 @@ public class ClienteController {
 		return ResponseEntity.notFound().build();
 	}
 	
+	@ApiOperation(value="Adiciona um novo cliente")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cliente adicionar(@Valid @RequestBody Cliente cliente) {
 		return cadastroCliente.salvar(cliente);
 	}
 	
+	@ApiOperation(value="Atualiza um cliente já existente")
 	@PutMapping("/{clienteId}")
 	public ResponseEntity<Cliente> atualizar(@Valid @PathVariable Long clienteId, 
 			@RequestBody Cliente cliente) {
